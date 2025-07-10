@@ -54,6 +54,24 @@ pip install -r requirements.txt
 python main_professional.py
 ```
 
+## 📸 Screenshots & Examples
+
+### CLI Interface
+
+#### Main Help Screen
+
+![image](https://github.com/user-attachments/assets/efc3622a-0068-4948-8015-54cab01da0ed)
+
+#### Stats Screen
+
+![image](https://github.com/user-attachments/assets/932bf5fe-418d-4f12-8484-67b7179be854)
+
+#### Export Queried Country as Excel Screen
+
+![image](https://github.com/user-attachments/assets/bb5b09ca-019b-4842-8787-3a02ef2cc8e7)
+
+
+
 ### 🐳 Docker Installation
 
 Alternatively, use Docker for a containerized environment:
