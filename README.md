@@ -40,7 +40,7 @@ A comprehensive, professional-grade web scraper and data analysis tool for colle
 
 1. **Clone the repository:**
 ```bash
-git clone <repository-url>
+git clone https://github.com/mertcoder/europayouthscraper
 cd europayouthscraper
 ```
 
