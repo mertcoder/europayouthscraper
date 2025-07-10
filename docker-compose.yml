@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: youth-scraper
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - ./opportunities.db:/app/opportunities.db:ro
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    command: ["python", "main_professional.py", "interactive"]
+    stdin_open: true
+    tty: true
+    networks:
+      - scraper-network
+
+  # Optional: Add PostgreSQL for production use
+  postgres:
+    image: postgres:13
+    container_name: youth-scraper-db
+    environment:
+      POSTGRES_DB: youth_opportunities
+      POSTGRES_USER: scraper
+      POSTGRES_PASSWORD: scraper_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - scraper-network
+    profiles:
+      - production
+
+  # Optional: Add Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: youth-scraper-cache
+    ports:
+      - "6379:6379"
+    networks:
+      - scraper-network
+    profiles:
+      - production
+
+  # Development environment with volume mounting
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: youth-scraper-dev
+    volumes:
+      - .:/app
+      - /app/venv  # Anonymous volume for venv
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+      - DEBUG=1
+    command: ["python", "main_professional.py", "interactive"]
+    stdin_open: true
+    tty: true
+    networks:
+      - scraper-network
+    profiles:
+      - development
+
+volumes:
+  postgres_data:
+
+networks:
+  scraper-network:
+    driver: bridge 
